@@ -244,6 +244,48 @@
             transform: translateY(0);
         }
 
+        /* Botão flutuante de pagamento */
+        .floating-pay-btn {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .floating-pay-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+        }
+        .floating-pay-btn:active {
+            transform: scale(0.97);
+        }
+
+        .floating-pay-btn[title] {
+            position: fixed;
+        }
+
+        @media (max-width: 768px) {
+            .floating-pay-btn {
+                top: 15px;
+                right: 15px;
+                width: 48px;
+                height: 48px;
+                font-size: 1.5rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .item {
                 flex-direction: column;
@@ -276,6 +318,10 @@
             <h1>🌽 Quermesse do Sagrado</h1>
             <p>Calculadora de Preços 2025</p>
         </div>
+
+        <button class="floating-pay-btn" title="Ir para Pagamento" onclick="goToPaymentSection()">
+            $
+        </button>
 
         <div class="total-display">
             💰 Total: R$ <span id="totalValue">0,00</span>
@@ -350,6 +396,13 @@
                 { name: "Doces Diversos", price: 3 }
             ]}
         ];
+
+        function goToPaymentSection() {
+            const paymentSection = document.querySelector('.payment-section');
+            if (paymentSection) {
+                paymentSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
 
         let quantities = {};
         let totalValue = 0;
