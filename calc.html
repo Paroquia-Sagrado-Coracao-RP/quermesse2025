@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quermesse do Sagrado - Calculadora</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .total-display {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .category {
+            margin-bottom: 30px;
+        }
+
+        .category-title {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: bold;
+            color: #2d3436;
+            font-size: 1.1rem;
+        }
+
+        .item-price {
+            color: #00b894;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-minus {
+            background: linear-gradient(135deg, #e17055, #d63031);
+        }
+
+        .btn-plus {
+            background: linear-gradient(135deg, #00b894, #00a085);
+        }
+
+        .quantity {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 8px 15px;
+            min-width: 50px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #2d3436;
+        }
+
+        .payment-section {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .payment-section h3 {
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .payment-controls {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .payment-field {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .payment-field label {
+            font-weight: bold;
+        }
+
+        .payment-field input {
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            text-align: center;
+            width: 150px;
+        }
+
+        .summary {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .summary h3 {
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .summary-total {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid rgba(255,255,255,0.5);
+        }
+
+        .clear-btn {
+            background: linear-gradient(135deg, #e17055, #d63031);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .clear-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .clear-btn:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .item {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .item-controls {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .payment-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .total-display {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌽 Quermesse do Sagrado</h1>
+            <p>Calculadora de Preços 2025</p>
+        </div>
+
+        <div class="total-display">
+            💰 Total: R$ <span id="totalValue">0,00</span>
+        </div>
+
+        <div class="content">
+            <div id="itemsContainer"></div>
+
+            <div class="payment-section">
+                <h3>💳 Pagamento</h3>
+                <div class="payment-controls">
+                    <div class="payment-field">
+                        <label>Valor Recebido:</label>
+                        <input type="number" id="receivedValue" placeholder="0,00" step="0.01">
+                    </div>
+                    <div class="payment-field">
+                        <label>Troco:</label>
+                        <input type="number" id="changeValue" placeholder="0,00" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary" id="summarySection">
+                <h3>📋 Resumo da Venda</h3>
+                <div id="summaryItems"></div>
+                <div class="summary-total">
+                    Total Geral: R$ <span id="summaryTotal">0,00</span>
+                </div>
+            </div>
+
+            <button class="clear-btn" onclick="clearAll()">🗑️ Limpar Tudo</button>
+        </div>
+    </div>
+
+    <script>
+        const items = [
+            { category: "Comidas", items: [
+                { name: "Cachorro Quente", price: 12 },
+                { name: "Espetinho", price: 10 },
+                { name: "Frango à Passarinho", price: 30 },
+                { name: "Lanche de Pernil", price: 15 },
+                { name: "Milho no Prato", price: 10 },
+                { name: "Mini Pizza", price: 10 },
+                { name: "Pastel", price: 10 },
+                { name: "Porção de Polenta", price: 15 },
+                { name: "Pururuca", price: 20 }
+            ]},
+            { category: "Bebidas", items: [
+                { name: "Água com Gás", price: 4 },
+                { name: "Água sem Gás", price: 3 },
+                { name: "Brahma Zero", price: 6 },
+                { name: "Cerveja Heineken", price: 8 },
+                { name: "Cerveja Skol", price: 6 },
+                { name: "Chopp", price: 8 },
+                { name: "Quentão", price: 6 },
+                { name: "Refrigerante", price: 6 },
+                { name: "Suco Prats", price: 8 }
+            ]},
+            { category: "Diversão", items: [
+                { name: "Brinquedo Avulso", price: 10 },
+                { name: "Brinquedo Passaporte", price: 35 },
+                { name: "Correio Elegante (Cartão)", price: 2 },
+                { name: "Correio Elegante (Rosa + Bombom)", price: 5 },
+                { name: "Correio Elegante (Rosa + Bombom + Cartão)", price: 6 },
+                { name: "Serenata", price: 8 },
+                { name: "Combo Correio Elegante", price: 12 },
+                { name: "Cadeia - 2 minutos", price: 2 },
+                { name: "Cadeia - Fiança", price: 5 }
+            ]},
+            { category: "Doces", items: [
+                { name: "Churros", price: 8 },
+                { name: "Doces Diversos", price: 3 }
+            ]}
+        ];
+
+        let quantities = {};
+        let totalValue = 0;
+
+        function initializeItems() {
+            const container = document.getElementById('itemsContainer');
+            container.innerHTML = '';
+
+            items.forEach(category => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category';
+                
+                const categoryTitle = document.createElement('div');
+                categoryTitle.className = 'category-title';
+                categoryTitle.textContent = category.category;
+                categoryDiv.appendChild(categoryTitle);
+
+                category.items.forEach(item => {
+                    const itemId = `${category.category}-${item.name}`;
+                    quantities[itemId] = 0;
+
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'item';
+                    itemDiv.innerHTML = `
+                        <div class="item-info">
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-price">R$ ${item.price.toFixed(2).replace('.', ',')}</div>
+                        </div>
+                        <div class="item-controls">
+                            <button class="btn btn-minus" onclick="changeQuantity('${itemId}', -1)">-</button>
+                            <div class="quantity" id="qty-${itemId}">0</div>
+                            <button class="btn btn-plus" onclick="changeQuantity('${itemId}', 1)">+</button>
+                        </div>
+                    `;
+                    categoryDiv.appendChild(itemDiv);
+                });
+
+                container.appendChild(categoryDiv);
+            });
+        }
+
+        function changeQuantity(itemId, change) {
+            quantities[itemId] = Math.max(0, quantities[itemId] + change);
+            document.getElementById(`qty-${itemId}`).textContent = quantities[itemId];
+            updateTotal();
+            updateSummary();
+        }
+
+        function updateTotal() {
+            totalValue = 0;
+            items.forEach(category => {
+                category.items.forEach(item => {
+                    const itemId = `${category.category}-${item.name}`;
+                    totalValue += quantities[itemId] * item.price;
+                });
+            });
+            document.getElementById('totalValue').textContent = totalValue.toFixed(2).replace('.', ',');
+            updateChange();
+        }
+
+        function updateChange() {
+            const received = parseFloat(document.getElementById('receivedValue').value) || 0;
+            const change = received - totalValue;
+            document.getElementById('changeValue').value = change >= 0 ? change.toFixed(2) : '';
+        }
+
+        function updateSummary() {
+            const summaryItems = document.getElementById('summaryItems');
+            const summaryTotal = document.getElementById('summaryTotal');
+            
+            summaryItems.innerHTML = '';
+            
+            items.forEach(category => {
+                category.items.forEach(item => {
+                    const itemId = `${category.category}-${item.name}`;
+                    const qty = quantities[itemId];
+                    
+                    if (qty > 0) {
+                        const itemTotal = qty * item.price;
+                        const summaryItem = document.createElement('div');
+                        summaryItem.className = 'summary-item';
+                        summaryItem.innerHTML = `
+                            <span>${item.name} (${qty}x)</span>
+                            <span>R$ ${itemTotal.toFixed(2).replace('.', ',')}</span>
+                        `;
+                        summaryItems.appendChild(summaryItem);
+                    }
+                });
+            });
+
+            summaryTotal.textContent = totalValue.toFixed(2).replace('.', ',');
+        }
+
+        function clearAll() {
+            if (confirm('Tem certeza que deseja limpar tudo?')) {
+                Object.keys(quantities).forEach(key => {
+                    quantities[key] = 0;
+                    document.getElementById(`qty-${key}`).textContent = '0';
+                });
+                document.getElementById('receivedValue').value = '';
+                document.getElementById('changeValue').value = '';
+                updateTotal();
+                updateSummary();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Event listeners
+        document.getElementById('receivedValue').addEventListener('input', updateChange);
+
+        // Initialize
+        initializeItems();
+        updateSummary();
+    </script>
+</body>
+</html>
