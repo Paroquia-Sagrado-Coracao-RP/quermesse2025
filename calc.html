@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quermesse do Sagrado - Calculadora</title>
+    <!-- Favicon de calculadora -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='48' height='60' x='8' y='2' rx='8' fill='%2300b894'/%3E%3Crect width='40' height='16' x='12' y='6' rx='3' fill='%23fff'/%3E%3Crect width='36' height='32' x='14' y='26' rx='3' fill='%23fff'/%3E%3Ccircle cx='22' cy='36' r='2.5' fill='%2300b894'/%3E%3Ccircle cx='32' cy='36' r='2.5' fill='%2300b894'/%3E%3Ccircle cx='42' cy='36' r='2.5' fill='%2300b894'/%3E%3Ccircle cx='22' cy='44' r='2.5' fill='%2300b894'/%3E%3Ccircle cx='32' cy='44' r='2.5' fill='%2300b894'/%3E%3Ccircle cx='42' cy='44' r='2.5' fill='%2300b894'/%3E%3C/svg%3E">
     <style>
         * {
             margin: 0;
@@ -310,6 +312,40 @@
                 font-size: 1.5rem;
             }
         }
+
+        .dinheirinho-section {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .dinheirinho-section h3 {
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        .dinheirinho-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .dinheirinho-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            font-size: 1.1rem;
+        }
+        .dinheirinho-item:last-child {
+            border-bottom: none;
+        }
+        .dinheirinho-total {
+            margin-top: 12px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
@@ -349,6 +385,21 @@
                 <div id="summaryItems"></div>
                 <div class="summary-total">
                     Total Geral: R$ <span id="summaryTotal">0,00</span>
+                </div>
+            </div>
+
+            <div class="dinheirinho-section">
+                <h3>💵 Dinheirinho</h3>
+                <div class="dinheirinho-list">
+                    <div class="dinheirinho-item"><span>$ 1</span><span>0</span></div>
+                    <div class="dinheirinho-item"><span>$ 2</span><span>0</span></div>
+                    <div class="dinheirinho-item"><span>$ 4</span><span>0</span></div>
+                    <div class="dinheirinho-item"><span>$ 5</span><span>0</span></div>
+                    <div class="dinheirinho-item"><span>$ 10</span><span>0</span></div>
+                    <div class="dinheirinho-item"><span>$ 20</span><span>0</span></div>
+                </div>
+                <div class="dinheirinho-total">
+                    Total: R$ <span id="dinheirinhoTotal">0,00</span>
                 </div>
             </div>
 
@@ -398,9 +449,9 @@
         ];
 
         function goToPaymentSection() {
-            const paymentSection = document.querySelector('.payment-section');
-            if (paymentSection) {
-                paymentSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const dinheirinhoSection = document.querySelector('.dinheirinho-section');
+            if (dinheirinhoSection) {
+                dinheirinhoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
 
@@ -494,6 +545,84 @@
             });
 
             summaryTotal.textContent = totalValue.toFixed(2).replace('.', ',');
+
+            updateDinheirinho();
+        }
+        // Mapeamento de notas por item
+        const notasPorItem = {
+            'Cachorro Quente': {2: 1, 10: 1},
+            'Espetinho': {10: 1},
+            'Frango à Passarinho': {10: 1, 20: 1},
+            'Lanche de Pernil': {10: 1, 5: 1},
+            'Milho no Prato': {10: 1},
+            'Mini Pizza': {10: 1},
+            'Pastel': {10: 1},
+            'Porção de Polenta': {10: 1, 5: 1},
+            'Pururuca': {20: 1},
+            'Água com Gás': {4: 1},
+            'Água sem Gás': {2: 1, 1: 1},
+            'Brahma Zero': {5: 1, 1: 1},
+            'Cerveja Heineken': {4: 2},
+            'Cerveja Skol': {5: 1, 1: 1},
+            'Chopp': {4: 2},
+            'Quentão': {5: 1, 1: 1},
+            'Refrigerante': {4: 1, 2: 1},
+            'Suco Prats': {4: 2},
+            'Brinquedo Avulso': {10: 1},
+            'Brinquedo Passaporte': {},
+            'Correio Elegante (Cartão)': {2: 1},
+            'Correio Elegante (Rosa + Bombom)': {5: 1},
+            'Correio Elegante (Rosa + Bombom + Cartão)': {5: 1, 1: 1},
+            'Serenata': {4: 2},
+            'Combo Correio Elegante': {10: 1, 2: 1},
+            'Cadeia - 2 minutos': {2: 1},
+            'Cadeia - Fiança': {5: 1},
+            'Churros': {4: 2},
+            'Doces Diversos': {2:1, 1: 1},
+        };
+
+        // Função para atualizar a seção Dinheirinho
+        function updateDinheirinho() {
+            // Ordem das notas
+            const notas = [1, 2, 4, 5, 10, 20];
+            // Inicializa contagem
+            const contagem = {1: 0, 2: 0, 4: 0, 5: 0, 10: 0, 20: 0};
+
+            items.forEach(category => {
+                category.items.forEach(item => {
+                    const itemId = `${category.category}-${item.name}`;
+                    const qty = quantities[itemId];
+                    if (qty > 0 && notasPorItem[item.name]) {
+                        const notasItem = notasPorItem[item.name];
+                        Object.keys(notasItem).forEach(nota => {
+                            contagem[nota] += notasItem[nota] * qty;
+                        });
+                    }
+                });
+            });
+
+            // Atualiza a interface
+            const dinheirinhoList = document.querySelector('.dinheirinho-list');
+            if (dinheirinhoList) {
+                // Atualiza cada linha
+                const linhas = dinheirinhoList.querySelectorAll('.dinheirinho-item');
+                notas.forEach((nota, idx) => {
+                    const spans = linhas[idx].querySelectorAll('span');
+                    if (spans.length === 2) {
+                        spans[1].textContent = contagem[nota];
+                    }
+                });
+            }
+
+            // Calcular totalizador geral
+            let total = 0;
+            notas.forEach(nota => {
+                total += nota * contagem[nota];
+            });
+            const totalSpan = document.getElementById('dinheirinhoTotal');
+            if (totalSpan) {
+                totalSpan.textContent = total.toFixed(2).replace('.', ',');
+            }
         }
 
         function clearAll() {
@@ -507,6 +636,7 @@
                 updateTotal();
                 updateSummary();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+                updateDinheirinho();
             }
         }
 
@@ -516,6 +646,7 @@
         // Initialize
         initializeItems();
         updateSummary();
+        updateDinheirinho();
     </script>
 </body>
 </html>
