@@ -1,18 +1,19 @@
 
 # 📖 Calculadora Quermesse do Sagrado - Guia do Usuário
 
+
 ## 📑 Índice
 
-- [🎯 Visão Geral](#visão-geral)
-- [🚀 Primeiros Passos](#primeiros-passos)
-- [🛍️ Como Fazer uma Venda](#como-fazer-uma-venda)
-- [📋 Produtos Disponíveis](#produtos-disponíveis)
-- [🎛️ Funcionalidades Especiais](#funcionalidades-especiais)
-- [📱 Uso em Dispositivos Móveis](#uso-em-dispositivos-móveis)
-- [🔧 Dicas e Melhores Práticas](#dicas-e-melhores-práticas)
-- [🌟 Exemplo Prático de Uso](#exemplo-prático-de-uso)
-- [🆘 Suporte e Contato](#suporte-e-contato)
-- [📈 Benefícios da Calculadora](#benefícios-da-calculadora)
+- [Visão Geral](#visao-geral)
+- [Primeiros Passos](#primeiros-passos)
+- [Como Fazer uma Venda](#como-fazer-uma-venda)
+- [Produtos Disponíveis](#produtos-disponiveis)
+- [Funcionalidades Especiais](#funcionalidades-especiais)
+- [Uso em Dispositivos Móveis](#uso-em-dispositivos-moveis)
+- [Dicas e Melhores Práticas](#dicas-e-melhores-praticas)
+- [Exemplo Prático de Uso](#exemplo-pratico-de-uso)
+- [Suporte e Contato](#suporte-e-contato)
+- [Benefícios da Calculadora](#beneficios-da-calculadora)
 
 ## 🎯 Visão Geral
 
