@@ -56,6 +56,32 @@
             padding: 30px;
         }
 
+        .tabs-section {
+            margin-bottom: 30px;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .tab-btn {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            padding: 10px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            outline: none;
+        }
+        .tab-btn.active, .tab-btn:focus {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: #fff;
+        }
+
         .category {
             margin-bottom: 30px;
         }
@@ -63,11 +89,11 @@
         .category-title {
             background: linear-gradient(135deg, #6c5ce7, #a29bfe);
             color: white;
-            padding: 15px;
+            padding: 10px;
             border-radius: 10px;
-            font-size: 1.3rem;
+            font-size: 1.0rem;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-align: center;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
@@ -256,12 +282,12 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
+            width: 81px;
+            height: 81px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 2.7rem;
             box-shadow: 0 4px 16px rgba(0,0,0,0.2);
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
@@ -273,18 +299,16 @@
         .floating-pay-btn:active {
             transform: scale(0.97);
         }
-
         .floating-pay-btn[title] {
             position: fixed;
         }
-
         @media (max-width: 768px) {
             .floating-pay-btn {
                 top: 15px;
                 right: 15px;
-                width: 48px;
-                height: 48px;
-                font-size: 1.5rem;
+                width: 58px;
+                height: 58px;
+                font-size: 1.8rem;
             }
         }
 
@@ -364,7 +388,15 @@
         </div>
 
         <div class="content">
-            <div id="itemsContainer"></div>
+            <div class="tabs-section">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="Comidas" onclick="showTab('Comidas', this)">Comidas</button>
+                    <button class="tab-btn" data-tab="Bebidas" onclick="showTab('Bebidas', this)">Bebidas</button>
+                    <button class="tab-btn" data-tab="Diversão" onclick="showTab('Diversão', this)">Diversão</button>
+                    <button class="tab-btn" data-tab="Doces" onclick="showTab('Doces', this)">Doces</button>
+                </div>
+                <div id="itemsContainer"></div>
+            </div>
 
             <div class="payment-section">
                 <h3>💳 Pagamento</h3>
@@ -463,23 +495,21 @@
         let quantities = {};
         let totalValue = 0;
 
-        function initializeItems() {
+        function initializeItems(selectedTab = 'Comidas') {
             const container = document.getElementById('itemsContainer');
             container.innerHTML = '';
 
             items.forEach(category => {
+                if (category.category !== selectedTab) return;
                 const categoryDiv = document.createElement('div');
                 categoryDiv.className = 'category';
-                
                 const categoryTitle = document.createElement('div');
                 categoryTitle.className = 'category-title';
                 categoryTitle.textContent = category.category;
                 categoryDiv.appendChild(categoryTitle);
-
                 category.items.forEach(item => {
                     const itemId = `${category.category}-${item.name}`;
-                    quantities[itemId] = 0;
-
+                    if (quantities[itemId] === undefined) quantities[itemId] = 0;
                     const itemDiv = document.createElement('div');
                     itemDiv.className = 'item';
                     itemDiv.innerHTML = `
@@ -489,13 +519,12 @@
                         </div>
                         <div class="item-controls">
                             <button class="btn btn-minus" onclick="changeQuantity('${itemId}', -1)">-</button>
-                            <div class="quantity" id="qty-${itemId}">0</div>
+                            <div class="quantity" id="qty-${itemId}">${quantities[itemId]}</div>
                             <button class="btn btn-plus" onclick="changeQuantity('${itemId}', 1)">+</button>
                         </div>
                     `;
                     categoryDiv.appendChild(itemDiv);
                 });
-
                 container.appendChild(categoryDiv);
             });
         }
@@ -648,6 +677,12 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 updateDinheirinho();
             }
+        }
+
+        function showTab(tab, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            initializeItems(tab);
         }
 
         // Event listeners
