@@ -1,20 +1,6 @@
 
 # 📖 Calculadora Quermesse do Sagrado - Guia do Usuário
 
-
-## 📑 Índice
-
-- [Visão Geral](#visao-geral)
-- [Primeiros Passos](#primeiros-passos)
-- [Como Fazer uma Venda](#como-fazer-uma-venda)
-- [Produtos Disponíveis](#produtos-disponiveis)
-- [Funcionalidades Especiais](#funcionalidades-especiais)
-- [Uso em Dispositivos Móveis](#uso-em-dispositivos-moveis)
-- [Dicas e Melhores Práticas](#dicas-e-melhores-praticas)
-- [Exemplo Prático de Uso](#exemplo-pratico-de-uso)
-- [Suporte e Contato](#suporte-e-contato)
-- [Benefícios da Calculadora](#beneficios-da-calculadora)
-
 ## 🎯 Visão Geral
 
 A Calculadora da Quermesse do Sagrado é uma ferramenta digital desenvolvida para facilitar o controle de vendas durante a festa da paróquia. Com ela, você pode registrar rapidamente as vendas, calcular totais e gerenciar o troco de forma prática e eficiente.
