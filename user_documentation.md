@@ -134,6 +134,22 @@ A tela está dividida em seções principais:
 - Os botões **+** e **-** são grandes o suficiente para toque preciso
 - Role a tela para ver todas as categorias de produtos
 
+### Como Salvar o Atalho da Calculadora na Tela Principal
+
+#### Android (Google Chrome)
+1. Abra a calculadora no navegador Chrome.
+2. Toque no menu (três pontinhos no canto superior direito).
+3. Selecione **"Adicionar à tela inicial"**.
+4. Confirme o nome (Sugestão: Quermesse Calc) e toque em **Adicionar**.
+5. O atalho aparecerá na tela principal do seu dispositivo.
+
+#### iOS (Safari)
+1. Abra a calculadora no navegador Safari.
+2. Toque no ícone de compartilhamento (quadrado com seta para cima).
+3. Selecione **"Adicionar à Tela de Início"**.
+4. Confirme o nome (Sugestão: Quermesse Calc)  e toque em **Adicionar**.
+5. O atalho será criado na tela inicial do iPhone ou iPad.
+
 ---
 
 ## 🔧 Dicas e Melhores Práticas
